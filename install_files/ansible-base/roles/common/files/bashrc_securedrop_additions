@@ -1,0 +1,14 @@
+# If not running interactively, do not do anything
+[[ $- != *i* ]] && return
+
+# Auto-launch tmux on login
+# https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
+if which tmux >/dev/null 2>&1; then
+    # if no session is started, start a new session
+    test -z ${TMUX} && tmux
+
+    # when quitting tmux, try to attach
+    while test -z ${TMUX}; do
+        tmux attach || break
+    done
+fi
